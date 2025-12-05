@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Medical Shop Billing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container"
+        style="max-width: 600px; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div class="card fade-in" style="width: 100%;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Complete Payment</h1>
+                <p style="color: var(--gray);">Scan the QR code to make payment</p>
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <!-- QR Code Display -->
+            <div id="qrDisplay"
+                style="text-align: center; margin-bottom: 2rem; padding: 2rem; background: var(--gray-lighter); border-radius: var(--radius);">
+                <div class="spinner"></div>
+            </div>
+
+            <!-- Amount Display -->
+            <div
+                style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 2rem; border-radius: var(--radius); margin-bottom: 2rem; text-align: center;">
+                <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Amount</p>
+                <p id="totalAmount" style="font-size: 3rem; font-weight: 700;">₹0.00</p>
+            </div>
+
+            <!-- Payment Buttons -->
+            <div style="display: flex; gap: 1rem;">
+                <button onclick="processPayment('success')" class="btn btn-secondary"
+                    style="flex: 1; justify-content: center; padding: 1.25rem;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Mark as Paid
+                </button>
+                <button onclick="processPayment('failed')" class="btn btn-danger"
+                    style="flex: 1; justify-content: center; padding: 1.25rem;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                    Mark as Failed
+                </button>
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <a href="/cart" style="color: var(--gray); text-decoration: none; font-size: 0.9rem;">
+                    ← Back to Cart
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/payment.js"></script>
+</body>
+
+</html>

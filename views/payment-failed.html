@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed - Medical Shop Billing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+    <div class="container"
+        style="max-width: 600px; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div class="card fade-in" style="width: 100%; text-align: center;">
+            <!-- Failed Icon -->
+            <div
+                style="width: 100px; height: 100px; margin: 0 auto 2rem; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(245, 87, 108, 0.3);">
+                <svg fill="none" stroke="white" viewBox="0 0 24 24" style="width: 50px; height: 50px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </div>
+
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--dark);">Payment Failed</h1>
+            <p style="color: var(--gray); font-size: 1.1rem; margin-bottom: 2rem;">Unfortunately, your payment could not
+                be processed</p>
+
+            <div
+                style="background: #fee2e2; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem; border-left: 4px solid var(--danger);">
+                <p style="color: #991b1b; font-weight: 500;">Please try again or contact support if the issue persists
+                </p>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="/payment" class="btn btn-primary" style="flex: 1; justify-content: center;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                        </path>
+                    </svg>
+                    Retry Payment
+                </a>
+                <a href="/dashboard" class="btn btn-outline" style="flex: 1; justify-content: center;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                        </path>
+                    </svg>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+</body>
+
+</html>

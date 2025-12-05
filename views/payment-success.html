@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Medical Shop Billing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+    <div class="container"
+        style="max-width: 600px; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div class="card fade-in" style="width: 100%; text-align: center;">
+            <!-- Success Icon -->
+            <div
+                style="width: 100px; height: 100px; margin: 0 auto 2rem; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(67, 233, 123, 0.3);">
+                <svg fill="none" stroke="white" viewBox="0 0 24 24" style="width: 50px; height: 50px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--dark);">Payment Successful!</h1>
+            <p style="color: var(--gray); font-size: 1.1rem; margin-bottom: 2rem;">Your transaction has been completed
+                successfully</p>
+
+            <div
+                style="background: var(--gray-lighter); padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
+                <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 0.5rem;">Invoice Number</p>
+                <p id="invoiceNo" style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">-</p>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button onclick="downloadInvoice()" class="btn btn-primary" style="flex: 1; justify-content: center;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                    Download Invoice
+                </button>
+                <a href="/dashboard" class="btn btn-secondary" style="flex: 1; justify-content: center;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                        </path>
+                    </svg>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script>
+        const invoiceNo = localStorage.getItem('lastInvoice');
+        if (invoiceNo) {
+            document.getElementById('invoiceNo').textContent = invoiceNo;
+        } else {
+            window.location.href = '/dashboard';
+        }
+
+        function downloadInvoice() {
+            if (!invoiceNo) {
+                alert('Invoice number not found');
+                return;
+            }
+
+            window.open(`/api/reports/invoice/${invoiceNo}`, '_blank');
+        }
+    </script>
+</body>
+
+</html>
