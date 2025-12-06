@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Maharaja Medical Shop Billing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>💊 Maharaja Medical</h2>
+            <p id="userEmail">Admin Panel</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/dashboard">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                    </path>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/stock">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Stock Maintain
+            </a>
+            <a href="/billing">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                    </path>
+                </svg>
+                Billing
+            </a>
+            <a href="/cart" class="active">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                    </path>
+                </svg>
+                Cart
+            </a>
+            <a href="/reports">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                Sales Report
+            </a>
+            <a href="#" id="logoutBtn" onclick="handleLogout(event)">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                    </path>
+                </svg>
+                Logout
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Shopping Cart</h1>
+            <p>Review your items and proceed to payment</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="grid grid-2" style="align-items: start;">
+            <!-- Cart Items -->
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem;">Cart Items</h2>
+                <div id="cartItems">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary & UPI Settings -->
+            <div>
+                <!-- Cart Summary -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h2 style="margin-bottom: 1.5rem;">Order Summary</h2>
+                    <div style="border-top: 2px solid var(--gray-lighter); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="color: var(--gray);">Total Items:</span>
+                            <span id="totalItems" style="font-weight: 600;">0</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-lighter);">
+                            <span style="color: var(--gray);">Total Quantity:</span>
+                            <span id="totalQuantity" style="font-weight: 600;">0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <span style="font-size: 1.1rem; font-weight: 600;">Subtotal:</span>
+                            <span id="subtotalAmount" style="font-size: 1.1rem; font-weight: 600;">₹0.00</span>
+                        </div>
+                        <!-- Discount Input -->
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                            <label style="color: var(--gray); font-size: 0.9rem;">Discount (%):</label>
+                            <input type="number" id="discountPercent" min="0" max="100" step="0.1" value="0"
+                                oninput="applyDiscount()"
+                                style="width: 80px; padding: 0.4rem 0.6rem; border: 1px solid var(--gray-lighter); border-radius: var(--radius); text-align: right; font-size: 0.95rem;">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <span style="color: var(--gray);">Discount Amount:</span>
+                            <span id="discountAmount" style="font-weight: 600; color: var(--success);">-₹0.00</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; padding-top: 0.75rem; border-top: 2px solid var(--gray-lighter);">
+                            <span style="font-size: 1.25rem; font-weight: 700;">Final Amount:</span>
+                            <span id="totalAmount"
+                                style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">₹0.00</span>
+                        </div>
+                        <button onclick="proceedToPayment()" class="btn btn-primary" style="width: 100%;"
+                            id="proceedBtn">
+                            Proceed to Payment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- UPI Settings -->
+                <div class="card" id="upiSettingsSection">
+                    <h2 style="margin-bottom: 1.5rem;">UPI Payment Settings</h2>
+                    <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.9rem;">
+                        Configure your UPI ID for receiving payments
+                    </p>
+                    <div class="input-group">
+                        <label for="savedUpiId">Your UPI ID</label>
+                        <input type="text" id="savedUpiId" placeholder="yourname@upi">
+                    </div>
+                    <button onclick="saveUpiId()" class="btn btn-secondary" style="width: 100%;">
+                        Save UPI ID
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content"
+            style="max-width: 450px; background: white; border-radius: var(--radius); padding: 2rem; position: relative; animation: fadeIn 0.3s ease;">
+            <button onclick="closePaymentModal()"
+                style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray);">&times;</button>
+
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Scan to Pay</h2>
+                <p style="color: var(--gray); font-size: 0.9rem;">Scan the QR code with any UPI app</p>
+            </div>
+
+            <!-- QR Code Display -->
+            <div id="qrCodeContainer"
+                style="text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: var(--gray-lighter); border-radius: var(--radius);">
+                <div id="qrCode" style="display: inline-block;"></div>
+            </div>
+
+            <!-- UPI ID Display -->
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <p style="color: var(--gray); font-size: 0.85rem;">UPI ID:</p>
+                <p id="displayUpiId" style="font-weight: 600; color: var(--dark);"></p>
+            </div>
+
+            <!-- Amount Display -->
+            <div
+                style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 1.5rem; text-align: center;">
+                <p style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 0.25rem;">Amount to Pay</p>
+                <p id="modalTotalAmount" style="font-size: 2.5rem; font-weight: 700;">₹0.00</p>
+            </div>
+
+            <!-- Payment Actions -->
+            <div style="display: flex; gap: 1rem;">
+                <button onclick="confirmPayment()" class="btn btn-secondary"
+                    style="flex: 1; justify-content: center; padding: 1rem;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                        </path>
+                    </svg>
+                    Payment Received
+                </button>
+                <button onclick="closePaymentModal()" class="btn btn-outline"
+                    style="flex: 1; justify-content: center; padding: 1rem;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #qrCode img {
+            border-radius: 8px;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/cart.js"></script>
+</body>
+
+</html>
