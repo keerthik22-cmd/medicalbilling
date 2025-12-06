@@ -1,0 +1,8 @@
+{
+    "name": "medicalbilling-root",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "cd backend && npm start",
+        "install-all": "cd backend && npm install"
+    }
+}
