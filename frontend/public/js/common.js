@@ -43,7 +43,7 @@ function checkUserAccess() {
     }
 
     // Pages allowed for 'user' role
-    const userAllowedPages = ['/dashboard', '/billing', '/cart', '/reports', '/payment', '/payment-success', '/payment-failed'];
+    const userAllowedPages = ['/dashboard', '/billing', '/cart', '/reports', '/payment', '/payment-success', '/payment-failed', '/stock'];
 
     if (!userAllowedPages.includes(currentPath)) {
         // Redirect to dashboard if user tries to access restricted page
@@ -58,14 +58,14 @@ function checkUserAccess() {
 function updateSidebarForRole() {
     const role = getUserRole();
 
-    if (role !== 'admin') {
-        // Hide Stock Maintain link for non-admin users
-        document.querySelectorAll('.sidebar-nav a').forEach(link => {
-            if (link.getAttribute('href') === '/stock') {
-                link.style.display = 'none';
-            }
-        });
-    }
+    // if (role !== 'admin') {
+    //     // Hide Stock Maintain link for non-admin users
+    //     document.querySelectorAll('.sidebar-nav a').forEach(link => {
+    //         if (link.getAttribute('href') === '/stock') {
+    //             link.style.display = 'none';
+    //         }
+    //     });
+    // }
 }
 
 // Logout function

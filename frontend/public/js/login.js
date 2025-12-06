@@ -44,7 +44,12 @@ loginForm.addEventListener('submit', async (e) => {
             showAlert('Login successful! Redirecting...', 'success');
 
             setTimeout(() => {
-                window.location.href = '/dashboard';
+                const user = data.user;
+                if (user.role === 'admin') {
+                    window.location.href = '/dashboard';
+                } else {
+                    window.location.href = '/stock';
+                }
             }, 1000);
         } else {
             showAlert(data.message || 'Login failed. Please try again.');

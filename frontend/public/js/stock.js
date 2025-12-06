@@ -4,6 +4,20 @@ let currentItems = [];
 
 // Load all items
 async function loadItems() {
+    // Check role and update UI
+    if (!isAdmin()) {
+        // Hide upload and add forms
+        const uploadCard = document.querySelector('#uploadForm').closest('.card');
+        const addCard = document.querySelector('#addItemForm').closest('.card');
+
+        if (uploadCard) uploadCard.style.display = 'none';
+        if (addCard) addCard.style.display = 'none';
+
+        // Update page header
+        const pageHeader = document.querySelector('.page-header p');
+        if (pageHeader) pageHeader.textContent = 'View current stock levels';
+    }
+
     try {
         const response = await fetch('/api/stock/items', {
             headers: getAuthHeaders()
@@ -26,16 +40,23 @@ async function loadItems() {
 // Display items in table
 function displayItems(items) {
     const tbody = document.getElementById('stockTableBody');
+    const isUserAdmin = isAdmin();
 
     if (items.length === 0) {
         tbody.innerHTML = `
       <tr>
         <td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray);">
-          No items in stock. Add items using the form above.
+          No items in stock. ${isUserAdmin ? 'Add items using the form above.' : ''}
         </td>
       </tr>
     `;
         return;
+    }
+
+    // Update table header if not admin
+    const tableHead = document.querySelector('table thead tr');
+    if (!isUserAdmin && tableHead && tableHead.children.length === 6) {
+        tableHead.lastElementChild.style.display = 'none';
     }
 
     tbody.innerHTML = items.map(item => `
@@ -47,6 +68,7 @@ function displayItems(items) {
       </td>
       <td>${formatCurrency(item.price)}</td>
       <td>${formatDate(item.expiryDate)}</td>
+      ${isUserAdmin ? `
       <td>
         <button onclick="window.editItem('${item._id}')" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-right: 0.5rem;">
           Edit
@@ -54,7 +76,7 @@ function displayItems(items) {
         <button onclick="window.deleteItem('${item._id}')" class="btn btn-danger" style="padding: 0.5rem 1rem;">
           Delete
         </button>
-      </td>
+      </td>` : ''}
     </tr>
   `).join('');
 }
