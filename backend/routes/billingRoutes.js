@@ -236,7 +236,7 @@ router.post('/cart/upload-qr', authMiddleware, upload.single('qrImage'), async (
 // Process payment
 router.post('/payment/process', authMiddleware, async (req, res) => {
     try {
-        const { status, discountPercent = 0 } = req.body; // 'success' or 'failed', optional discount
+        const { status, discountPercent = 0, customerPhone = '' } = req.body; // 'success' or 'failed', optional discount, phone
         const sessionId = req.session.id;
 
         const cart = await Cart.findOne({ sessionId }).populate('items.itemId');
@@ -305,7 +305,8 @@ router.post('/payment/process', authMiddleware, async (req, res) => {
                 discountAmount: discountAmount,
                 totalAmount: finalAmount,
                 paymentStatus: 'success',
-                date: new Date()
+                date: new Date(),
+                customerPhone
             });
 
             // Update stock quantities
@@ -322,7 +323,8 @@ router.post('/payment/process', authMiddleware, async (req, res) => {
                 success: true,
                 message: 'Payment successful',
                 sale,
-                invoiceNo
+                invoiceNo,
+                customerPhone
             });
         } else {
             res.json({
@@ -337,6 +339,32 @@ router.post('/payment/process', authMiddleware, async (req, res) => {
             success: false,
             message: 'Error processing payment',
             error: error.message
+        });
+    }
+});
+
+// Get invoice details for WhatsApp sharing
+router.get('/invoice/:invoiceNo/details', authMiddleware, async (req, res) => {
+    try {
+        const { invoiceNo } = req.params;
+        const sale = await Sale.findOne({ invoiceNo });
+
+        if (!sale) {
+            return res.status(404).json({
+                success: false,
+                message: 'Invoice not found'
+            });
+        }
+
+        res.json({
+            success: true,
+            sale
+        });
+    } catch (error) {
+        console.error('Get invoice details error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching invoice details'
         });
     }
 });

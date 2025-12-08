@@ -56,6 +56,10 @@ const saleSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    customerPhone: {
+        type: String,
+        default: ''
     }
 });
 

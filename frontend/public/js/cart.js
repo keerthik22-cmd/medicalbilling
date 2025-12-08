@@ -277,10 +277,14 @@ function closePaymentModal() {
     const qrContainer = document.getElementById('qrCode');
     qrContainer.innerHTML = '';
     qrCodeInstance = null;
+
+    // Clear phone input
+    const phoneInput = document.getElementById('customerPhone');
+    if (phoneInput) phoneInput.value = '';
 }
 
 // Confirm payment received and redirect to dashboard
-async function confirmPayment() {
+async function confirmPayment(autoShare = false) {
     if (!currentCart || currentCart.items.length === 0) {
         showAlert('Cart is empty');
         return;
@@ -292,33 +296,58 @@ async function confirmPayment() {
         // Get discount info
         const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
 
+        // Get customer phone
+        const customerPhoneInput = document.getElementById('customerPhone');
+        const customerPhone = customerPhoneInput ? customerPhoneInput.value.trim() : '';
+
+        // Simple phone validation (if provided)
+        if (customerPhone && !/^\d{10}$/.test(customerPhone)) {
+            showAlert('Please enter a valid 10-digit mobile number');
+            return;
+        }
+
         const response = await fetch('/api/billing/payment/process', {
             method: 'POST',
             headers: getAuthHeaders(),
             body: JSON.stringify({
                 status: 'success',
-                discountPercent: discountPercent
+                discountPercent: discountPercent,
+                customerPhone: customerPhone
             })
         });
 
         const data = await response.json();
 
+        console.log('Payment API response:', data);
+
         if (data.success) {
-            // Store invoice number
+            // Store invoice number and phone for success page
             if (data.invoiceNo) {
+                console.log('Storing lastInvoice:', data.invoiceNo);
                 localStorage.setItem('lastInvoice', data.invoiceNo);
+            }
+            if (data.customerPhone) {
+                console.log('Storing customerPhone:', data.customerPhone);
+                localStorage.setItem('customerPhone', data.customerPhone);
+            } else {
+                console.log('No customerPhone in response to store');
+                localStorage.removeItem('customerPhone');
             }
 
             // Close modal
             closePaymentModal();
 
             // Show success message
-            showAlert('Payment successful! Redirecting to dashboard...', 'success');
+            showAlert('Payment successful! Redirecting...', 'success');
 
             // Redirect to dashboard after a brief delay
             setTimeout(() => {
-                window.location.href = '/dashboard';
-            }, 1500);
+                if (autoShare) {
+                    window.location.href = '/payment-success?autoshare=true';
+                } else {
+                    window.location.href = '/dashboard';
+                }
+            }, 1000);
         } else {
             showAlert(data.message || 'Payment processing failed');
         }
