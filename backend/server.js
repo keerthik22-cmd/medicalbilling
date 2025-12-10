@@ -47,6 +47,10 @@ const viewsPath = path.join(__dirname, '../frontend/views');
 
 // Serve HTML pages
 app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
+app.get('/login', (req, res) => {
     res.sendFile(path.join(viewsPath, 'login.html'));
 });
 
