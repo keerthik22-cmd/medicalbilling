@@ -1,8 +1,13 @@
 {
+    "$schema": "https://json.schemastore.org/package.json",
     "name": "medicalbilling-root",
     "version": "1.0.0",
+    "private": true,
+    "description": "Root package for medical billing application",
     "scripts": {
         "start": "cd backend && npm start",
         "install-all": "cd backend && npm install"
-    }
+    },
+    "author": "",
+    "license": "ISC"
 }
